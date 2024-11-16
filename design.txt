@@ -1,0 +1,33 @@
+class Sensors
+class SpeedSensor
+class Diagstrategy
+class SpeedSensorDiagStrategy
+class Diagnostics
+class ECU 
+class logger
+
+
+
+
+
+///////////////////////////////////////////////////////////
+class Sensors should have the interfaces for different sensors 
+
+each class sensor should have its own reading generator
+
+class Diagstrategy should the interfaces for different sensor strategies
+
+each SensorDiagStrategy class should have the check strategy for the sensor reading
+probably using an analyze function
+based on the checks, the SensorDiagStrategy should send a request to the ECU tells it to 
+perform a specific task "slowdown, break, alarm,...etc"
+
+class Diagnostics should process all the sensors readings by looping on all the checks of the
+sensors strategies analyses
+it will loop on a vector of pointers to sensor class
+
+class ECU shall have the actuall functions that performs the requests came from the sensor strategy
+like lowering speed or hitting the break or raising alarm 
+
+class logger shall log all readings and status of each class using singletone design pattern
+for single instance

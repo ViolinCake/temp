@@ -1,0 +1,5 @@
+/home/kenjhin/Desktop/trial/Vehicle_Telemetry/build/CMakeFiles/edit_cache.dir
+/home/kenjhin/Desktop/trial/Vehicle_Telemetry/build/CMakeFiles/rebuild_cache.dir
+/home/kenjhin/Desktop/trial/Vehicle_Telemetry/build/src/CMakeFiles/vehicle.dir
+/home/kenjhin/Desktop/trial/Vehicle_Telemetry/build/src/CMakeFiles/edit_cache.dir
+/home/kenjhin/Desktop/trial/Vehicle_Telemetry/build/src/CMakeFiles/rebuild_cache.dir

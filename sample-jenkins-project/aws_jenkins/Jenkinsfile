@@ -3,26 +3,33 @@ pipeline{
     parameters{
         string(name: "repo_url", defaultValue: 'https://github.com/ViolinCake/temp' ,description: 'holding url of the repo to build')
     }
+
     tools{
         nodejs 'node-js'
     }
 
     stages{
-        stage('pull code'){
-            steps{
-                sh 'echo pulling...'
-                git branch: 'main', url:"${params.repo_url}"
+        stage('pull code') {
+            steps {
+                echo 'Pulling code...'
+                git branch: 'main', url: 'https://github.com/ViolinCake/temp'
             }
         }
-        stage('install modules'){
-            steps{
-                sh 'npm install'
+        stage('install modules') {
+            steps {
+                // go into the folder containing package.json
+                dir('sample-jenkins-project') {
+                    sh 'which npm'
+                    sh 'npm install'
+                }
             }
         }
-        stage('run code'){
-            steps{
-                sh 'echo running...'
-                sh 'timeout 30 node app.js'
+        stage('run code') {
+            steps {
+                dir('sample-jenkins-project') {
+                    sh 'echo running...'
+                    sh 'timeout 30 node app.js'
+                }
             }
         }
     }

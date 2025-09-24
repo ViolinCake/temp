@@ -1,8 +1,5 @@
 pipeline{
     agent { label 'docker' }
-    parameters{
-        string(name: "repo_url", defaultValue: 'https://github.com/mohamedbstar413/sample-jenkins-project' ,description: 'holding url of the repo to build')
-    }
 
     tools{
         nodejs 'node-js'

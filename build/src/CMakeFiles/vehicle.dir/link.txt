@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/vehicle.dir/ACC.cpp.o CMakeFiles/vehicle.dir/SpeedSensorDiagStrategy.cpp.o CMakeFiles/vehicle.dir/SpeedSensorReading.cpp.o CMakeFiles/vehicle.dir/main.cpp.o -o vehicle 

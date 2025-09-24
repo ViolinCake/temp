@@ -1,0 +1,31 @@
+pipeline{
+    agent { label 'docker' }
+    parameters{
+        string(name: "repo_url", defaultValue: 'https://github.com/mohamedbstar413/sample-jenkins-project' ,description: 'holding url of the repo to build')
+    }
+
+    tools{
+        nodejs 'node-js'
+    }
+
+    stages{
+        stage('pull code'){
+            steps{
+                sh 'echo pulling...'
+                git branch: 'main', url:"${params.repo_url}"
+            }
+        }
+        stage('install modules'){
+            steps{
+                sh 'which npm'
+                sh 'npm install'
+            }
+        }
+        stage('run code'){
+            steps{
+                sh 'echo running...'
+                sh 'timeout 30 node app.js'
+            }
+        }
+    }
+}

@@ -6,12 +6,12 @@ pipeline{
     }
 
     stages{
-        stage('pull code'){
-            steps{
-                sh 'echo pulling...'
-                git branch: 'main', url:"${params.repo_url}"
-            }
-        }
+        // stage('pull code'){
+        //     steps{
+        //         sh 'echo pulling...'
+        //         git branch: 'main', url:"${params.repo_url}"
+        //     }
+        // }
         stage('install modules'){
             steps{
                 sh 'which npm'

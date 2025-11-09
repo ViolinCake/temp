@@ -24,7 +24,14 @@ pipeline {
         git branch: 'main', credentialsId: 'github', url: 'https://github.com/ViolinCake/temp'
       }
     }
-
+    // 👇 ADD THIS TEMPORARY DEBUG STEP
+    stage("DEBUG PAUSE") {
+        steps {
+            # This step will hold the agent Pod in a connected state indefinitely.
+            input(message: 'Pod is frozen. Go check kubectl describe now!', submitter: 'admin')
+        }
+    }
+    // 👆 REMOVE THIS AFTER DEBUGGING
     stage('Build & Push with Kaniko') {
       environment {
         DOCKER_CREDS = credentials('dockerhub') // 👈 Securely fetch DockerHub creds

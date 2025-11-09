@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: kaniko-builder
+  namespace: jenkins
 spec:
   serviceAccountName: jenkins-agent
   containers:
@@ -9,13 +10,12 @@ spec:
       image: gcr.io/kaniko-project/executor:latest
       imagePullPolicy: IfNotPresent
       command:
-        - /busybox/sh
-        - -c
-        - "sleep infinity"  # The container is controlled by Jenkins
+        - sleep
+        - "infinity"   # Keep container alive for Jenkins to control
       volumeMounts:
         - name: kaniko-secret
-          mountPath: /kaniko/.docker  # Mount path for Docker config (created dynamically)
+          mountPath: /kaniko/.docker   # Mount Docker credentials dynamically from Jenkins
   restartPolicy: Never
   volumes:
     - name: kaniko-secret
-      emptyDir: {}  # ephemeral storage for Docker config
+      emptyDir: {}   # ephemeral storage for Docker config

@@ -39,8 +39,8 @@ pipeline {
 
             echo "Building and pushing image with Kaniko..."
             /kaniko/executor \
-              --dockerfile `pwd`/Dockerfile \
-              --context `pwd` \
+              --dockerfile `pwd`/testing/Dockerfile \
+              --context `pwd`/testing \
               --destination=${DOCKER_CREDS_USR}/${APP_NAME}:${IMAGE_TAG} \
               --destination=${DOCKER_CREDS_USR}/${APP_NAME}:latest
           '''

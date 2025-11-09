@@ -27,7 +27,7 @@ pipeline {
     // 👇 ADD THIS TEMPORARY DEBUG STEP
     stage("DEBUG PAUSE") {
         steps {
-            # This step will hold the agent Pod in a connected state indefinitely.
+            
             input(message: 'Pod is frozen. Go check kubectl describe now!', submitter: 'admin')
         }
     }

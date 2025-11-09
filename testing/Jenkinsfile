@@ -60,11 +60,11 @@ pipeline {
   }
 }
     // 👇 ADD THIS TEMPORARY DEBUG STEP
-    stage("DEBUG PAUSE") {
-        steps {
+    // stage("DEBUG PAUSE") {
+    //     steps {
             
-            input(message: 'Pod is frozen. Go check kubectl describe now!', submitter: 'admin')
-        }
-    }
+    //         input(message: 'Pod is frozen. Go check kubectl describe now!', submitter: 'admin')
+    //     }
+    // }
   }
 }

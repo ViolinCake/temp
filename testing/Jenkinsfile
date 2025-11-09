@@ -27,31 +27,38 @@ pipeline {
     
     // 👆 REMOVE THIS AFTER DEBUGGING
         stage('Build & Push with Kaniko') {
-            environment {
-                DOCKER_CREDS = credentials('dockerhub') // Securely fetch DockerHub creds
-        }
-      steps {
-        container(name: 'kaniko', shell: '/busybox/sh') {
-          sh '''#!/busybox/sh
-            echo "Preparing Docker config for Kaniko..."
+  environment {
+    DOCKER_CREDS = credentials('dockerhub') // Securely fetch DockerHub creds
+  }
+  steps {
+    container(name: 'kaniko', shell: '/busybox/sh') {
+      sh '''#!/busybox/sh
+        echo "Preparing Docker config for Kaniko..."
 
-            mkdir -p /kaniko/.docker
-
-            # --- CRITICAL FIX: Add -w 0 to base64 to prevent newlines in the JSON string ---
-            AUTH_STRING=$(echo -n ${DOCKER_CREDS_USR}:${DOCKER_CREDS_PSW} | base64 -w 0)
-
-            echo "{\"auths\":{\"https://index.docker.io/v1/\":{\"auth\":\"${AUTH_STRING}\"}}}" > /kaniko/.docker/config.json
-
-            echo "Building and pushing image with Kaniko..."
-            /kaniko/executor \\
-              --dockerfile `pwd`/testing/Dockerfile \\
-              --context `pwd`/testing \\
-              --destination=${DOCKER_CREDS_USR}/${APP_NAME}:${IMAGE_TAG} \\
-              --destination=${DOCKER_CREDS_USR}/${APP_NAME}:latest
-          '''
-        }
-      }
+        mkdir -p /kaniko/.docker
+        
+        # 1. Generate the base64 string without newlines and store it cleanly
+        AUTH_STRING=$(echo -n ${DOCKER_CREDS_USR}:${DOCKER_CREDS_PSW} | base64 -w 0)
+        
+        # 2. Write the JSON string to the file using 'echo -n' to prevent trailing newlines
+        echo -n "{\\"auths\\":{\\"https://index.docker.io/v1/\\":{\\"auth\\":\\"${AUTH_STRING}\\"}}}" > /kaniko/.docker/config.json
+        
+        # 3. CRITICAL DEBUG STEP: Print the file content to verify
+        echo "--- Content of /kaniko/.docker/config.json ---"
+        cat /kaniko/.docker/config.json
+        echo "" # Add a newline for clean output
+        echo "--- End of file content ---"
+        
+        echo "Building and pushing image with Kaniko..."
+        /kaniko/executor \\
+          --dockerfile `pwd`/testing/Dockerfile \\
+          --context `pwd`/testing \\
+          --destination=${DOCKER_CREDS_USR}/${APP_NAME}:${IMAGE_TAG} \\
+          --destination=${DOCKER_CREDS_USR}/${APP_NAME}:latest
+      '''
     }
+  }
+}
     // 👇 ADD THIS TEMPORARY DEBUG STEP
     stage("DEBUG PAUSE") {
         steps {
